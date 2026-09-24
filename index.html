@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Velocity Motors — Showroom</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0d10;
+    --bg2:#111418;
+    --card:#15181d;
+    --accent:#ff3d3d;
+    --accent2:#ffb400;
+    --text:#f3f4f6;
+    --muted:#9aa1ab;
+    --line:#22262c;
+    padding-top: env(safe-area-inset-top,0px);
+    padding-bottom: env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; scroll-padding-top: env(safe-area-inset-top,0px);}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(255,61,61,.12), transparent 60%),
+      radial-gradient(900px 500px at 0% 0%, rgba(255,180,0,.08), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Poppins',sans-serif;
+    min-height:100%;
+  }
+  h1,h2,h3,.brand{font-family:'Oswald',sans-serif; text-transform:uppercase; letter-spacing:1px;}
+
+  /* NAV */
+  header{
+    position:sticky; top:0; z-index:50;
+    padding-top: calc(14px + env(safe-area-inset-top,0px));
+    padding-bottom:14px;
+    padding-left:5vw; padding-right:5vw;
+    display:flex; align-items:center; justify-content:space-between;
+    background:rgba(11,13,16,.75);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{font-size:22px; font-weight:800; display:flex; align-items:center; gap:8px;}
+  .brand span{color:var(--accent);}
+  nav a{color:var(--muted); text-decoration:none; margin-left:26px; font-size:14px; font-weight:600; transition:color .2s;}
+  nav a:hover{color:var(--text);}
+
+  /* HERO */
+  .hero{
+    position:relative;
+    padding:90px 5vw 60px;
+    overflow:hidden;
+    text-align:center;
+  }
+  .hero h1{
+    font-size:clamp(34px,7vw,72px);
+    margin:0 0 10px;
+    line-height:1.05;
+  }
+  .hero h1 em{
+    font-style:normal;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p{color:var(--muted); max-width:560px; margin:0 auto 30px; font-size:16px;}
+  .hero-cta{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+  .btn{
+    padding:14px 30px; border-radius:40px; border:none; cursor:pointer;
+    font-weight:600; font-size:14px; letter-spacing:.5px; text-decoration:none;
+    display:inline-block; transition:transform .2s, box-shadow .2s;
+  }
+  .btn-primary{background:linear-gradient(90deg,var(--accent),#ff6a3d); color:#fff; box-shadow:0 8px 24px rgba(255,61,61,.35);}
+  .btn-ghost{border:1px solid var(--line); color:var(--text); background:transparent;}
+  .btn:hover{transform:translateY(-3px);}
+
+  .hero-car{
+    margin-top:40px; font-size:clamp(120px,22vw,260px); line-height:1;
+    filter:drop-shadow(0 30px 40px rgba(255,61,61,.25));
+    animation:float 4s ease-in-out infinite;
+    user-select:none;
+  }
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+
+  /* STATS */
+  .stats{
+    display:flex; justify-content:center; gap:60px; flex-wrap:wrap;
+    padding:20px 5vw 60px; border-bottom:1px solid var(--line);
+  }
+  .stat{text-align:center;}
+  .stat b{font-size:32px; font-family:'Oswald',sans-serif; color:var(--accent2);}
+  .stat span{display:block; color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-top:4px;}
+
+  /* SECTION */
+  section{padding:70px 5vw;}
+  .section-head{text-align:center; margin-bottom:40px;}
+  .section-head h2{font-size:clamp(26px,4vw,40px); margin:0 0 8px;}
+  .section-head p{color:var(--muted); margin:0;}
+
+  /* FILTERS */
+  .filters{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:40px;}
+  .filter-btn{
+    background:var(--card); border:1px solid var(--line); color:var(--muted);
+    padding:10px 20px; border-radius:30px; cursor:pointer; font-size:13px; font-weight:600;
+    transition:all .25s;
+  }
+  .filter-btn:hover{color:var(--text); border-color:var(--accent);}
+  .filter-btn.active{background:linear-gradient(90deg,var(--accent),#ff6a3d); color:#fff; border-color:transparent;}
+
+  /* GRID */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+    gap:26px;
+  }
+  .card{
+    background:linear-gradient(180deg, var(--card), #0f1114);
+    border:1px solid var(--line);
+    border-radius:18px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:transform .35s, box-shadow .35s, border-color .35s;
+    position:relative;
+  }
+  .card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 40px rgba(0,0,0,.45);
+    border-color:rgba(255,61,61,.4);
+  }
+  .card-media{
+    height:180px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:90px;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,.06), transparent 60%),
+      linear-gradient(160deg,#1a1d22,#0c0e11);
+    position:relative;
+    transition:transform .4s;
+  }
+  .card:hover .card-media{transform:scale(1.05);}
+  .tag{
+    position:absolute; top:14px; left:14px;
+    background:rgba(255,180,0,.15); color:var(--accent2);
+    border:1px solid rgba(255,180,0,.4);
+    font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+    text-transform:uppercase; letter-spacing:.5px;
+  }
+  .card-body{padding:20px;}
+  .card-body h3{margin:0 0 4px; font-size:19px;}
+  .card-type{color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;}
+  .card-specs{display:flex; gap:16px; margin-bottom:16px; flex-wrap:wrap;}
+  .spec{font-size:12px; color:var(--muted);}
+  .spec b{display:block; color:var(--text); font-size:14px; font-family:'Oswald',sans-serif;}
+  .card-footer{display:flex; align-items:center; justify-content:space-between;}
+  .price{font-family:'Oswald',sans-serif; font-size:20px; color:var(--accent2); font-weight:700;}
+  .view-btn{
+    background:transparent; border:1px solid var(--line); color:var(--text);
+    padding:8px 16px; border-radius:20px; font-size:12px; cursor:pointer; transition:.2s;
+  }
+  .view-btn:hover{background:var(--accent); border-color:var(--accent); color:#fff;}
+
+  /* MODAL */
+  .overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,.7);
+    backdrop-filter:blur(4px);
+    display:none; align-items:center; justify-content:center;
+    z-index:100; padding:20px;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:var(--bg2); border:1px solid var(--line); border-radius:22px;
+    max-width:560px; width:100%; overflow:hidden;
+    animation:pop .25s ease;
+    max-height:90vh; overflow-y:auto;
+  }
+  @keyframes pop{from{transform:scale(.92); opacity:0} to{transform:scale(1); opacity:1}}
+  .modal-media{
+    height:220px; display:flex; align-items:center; justify-content:center; font-size:120px;
+    background:linear-gradient(160deg,#1a1d22,#0c0e11); position:relative;
+  }
+  .modal-close{
+    position:absolute; top:16px; right:16px; width:34px; height:34px; border-radius:50%;
+    background:rgba(0,0,0,.5); border:1px solid var(--line); color:#fff; cursor:pointer; font-size:16px;
+  }
+  .modal-body{padding:26px;}
+  .modal-body h2{margin:0 0 6px;}
+  .modal-body .card-type{margin-bottom:18px;}
+  .modal-specs{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:20px;}
+  .modal-specs .spec{background:var(--card); border:1px solid var(--line); padding:12px; border-radius:10px; text-align:center;}
+  .modal-desc{color:var(--muted); font-size:14px; line-height:1.6; margin-bottom:22px;}
+  .modal-footer{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;}
+
+  /* FOOTER */
+  footer{
+    border-top:1px solid var(--line); padding:30px 5vw calc(30px + env(safe-area-inset-bottom,0px));
+    text-align:center; color:var(--muted); font-size:13px;
+  }
+
+  @media(max-width:640px){
+    nav{display:none;}
+    .modal-specs{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">🏁 Velocity<span>Motors</span></div>
+  <nav>
+    <a href="#fleet">Fleet</a>
+    <a href="#stats">Why Us</a>
+    <a href="#footer">Contact</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>Drive Your <em>Dream</em><br>Home Today</h1>
+  <p>Curated performance, luxury and electric vehicles — hand picked, fully inspected, ready for the road.</p>
+  <div class="hero-cta">
+    <a href="#fleet" class="btn btn-primary">Browse Fleet</a>
+    <a href="#footer" class="btn btn-ghost">Book Test Drive</a>
+  </div>
+  <div class="hero-car">🏎️</div>
+</div>
+
+<div class="stats" id="stats">
+  <div class="stat"><b>120+</b><span>Cars in Stock</span></div>
+  <div class="stat"><b>18</b><span>Years Trusted</span></div>
+  <div class="stat"><b>4.9★</b><span>Customer Rating</span></div>
+  <div class="stat"><b>24/7</b><span>Support</span></div>
+</div>
+
+<section id="fleet">
+  <div class="section-head">
+    <h2>Our Fleet</h2>
+    <p>Tap a filter to narrow the search, tap a car to see full details.</p>
+  </div>
+
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<footer id="footer">
+  © 2026 Velocity Motors — All cars sold as showcased for demo purposes only.
+</footer>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+const cars = [
+  {name:"Nimbus GT", type:"Sports Coupe", cat:"Sports", emoji:"🏎️", price:"$89,900", hp:"520", top:"198 mph", zero:"3.2s", desc:"A track-bred coupe wrapped in a road-legal shell. Carbon-ceramic brakes and an adaptive rear wing make every corner feel planned."},
+  {name:"Aurora EV Sedan", type:"Electric Sedan", cat:"Electric", emoji:"⚡", price:"$64,500", hp:"430", top:"155 mph", zero:"3.9s", desc:"Whisper-quiet, 340-mile range, and a cabin that feels more lounge than car. Fast charging gets you back on the road in 18 minutes."},
+  {name:"Titan Overland", type:"Off-Road SUV", cat:"SUV", emoji:"🚙", price:"$72,300", hp:"395", top:"128 mph", zero:"5.4s", desc:"Locking diffs, 11in of ground clearance, and a cabin built to shrug off mud. Built for the trail, comfortable on the highway."},
+  {name:"Velvet Regal", type:"Luxury Sedan", cat:"Luxury", emoji:"🚘", price:"$118,000", hp:"460", top:"165 mph", zero:"4.1s", desc:"Hand-stitched leather, massaging rear seats, and a suspension that reads the road ahead. Executive travel, redefined."},
+  {name:"Spectre Roadster", type:"Convertible", cat:"Sports", emoji:"🚗", price:"$95,200", hp:"480", top:"180 mph", zero:"3.6s", desc:"Top down, engine snarling — this roadster is built for coastal roads and second glances."},
+  {name:"Bolt Hatch RS", type:"Hot Hatch", cat:"Electric", emoji:"🔋", price:"$41,750", hp:"320", top:"149 mph", zero:"4.4s", desc:"Pocket rocket energy with an electric drivetrain. Nimble in the city, surprisingly quick everywhere else."},
+  {name:"Grandeur X7", type:"Family SUV", cat:"SUV", emoji:"🚐", price:"$58,900", hp:"310", top:"124 mph", zero:"6.1s", desc:"Three rows, seven airbags, zero compromise. The SUV built for school runs and road trips alike."},
+  {name:"Obsidian Coupe", type:"Grand Tourer", cat:"Luxury", emoji:"🏁", price:"$142,000", hp:"610", top:"205 mph", zero:"2.9s", desc:"A hand-built grand tourer for those who cross continents, not just commutes."},
+];
+
+const categories = ["All", ...new Set(cars.map(c => c.cat))];
+const filtersEl = document.getElementById('filters');
+const gridEl = document.getElementById('grid');
+const overlay = document.getElementById('overlay');
+const modal = document.getElementById('modal');
+let active = "All";
+
+function renderFilters(){
+  filtersEl.innerHTML = categories.map(cat =>
+    `<button class="filter-btn ${cat===active?'active':''}" data-cat="${cat}">${cat}</button>`
+  ).join('');
+  filtersEl.querySelectorAll('.filter-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      active = btn.dataset.cat;
+      renderFilters();
+      renderGrid();
+    });
+  });
+}
+
+function renderGrid(){
+  const list = active === "All" ? cars : cars.filter(c => c.cat === active);
+  gridEl.innerHTML = list.map((c, i) => {
+    const idx = cars.indexOf(c);
+    return `
+    <div class="card" data-idx="${idx}">
+      <div class="card-media">
+        <span class="tag">${c.cat}</span>
+        ${c.emoji}
+      </div>
+      <div class="card-body">
+        <h3>${c.name}</h3>
+        <div class="card-type">${c.type}</div>
+        <div class="card-specs">
+          <div class="spec"><b>${c.hp}</b>HP</div>
+          <div class="spec"><b>${c.zero}</b>0–60</div>
+          <div class="spec"><b>${c.top}</b>Top Speed</div>
+        </div>
+        <div class="card-footer">
+          <div class="price">${c.price}</div>
+          <button class="view-btn">View →</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  gridEl.querySelectorAll('.card').forEach(card=>{
+    card.addEventListener('click', ()=> openModal(cars[card.dataset.idx]));
+  });
+}
+
+function openModal(c){
+  modal.innerHTML = `
+    <div class="modal-media">
+      <button class="modal-close" id="closeBtn">✕</button>
+      ${c.emoji}
+    </div>
+    <div class="modal-body">
+      <h2>${c.name}</h2>
+      <div class="card-type">${c.type} · ${c.cat}</div>
+      <div class="modal-specs">
+        <div class="spec"><b>${c.hp}</b>Horsepower</div>
+        <div class="spec"><b>${c.zero}</b>0–60 mph</div>
+        <div class="spec"><b>${c.top}</b>Top Speed</div>
+      </div>
+      <p class="modal-desc">${c.desc}</p>
+      <div class="modal-footer">
+        <div class="price">${c.price}</div>
+        <a href="#footer" class="btn btn-primary" id="testDriveBtn">Book Test Drive</a>
+      </div>
+    </div>
+  `;
+  overlay.classList.add('open');
+  document.getElementById('closeBtn').addEventListener('click', closeModal);
+  document.getElementById('testDriveBtn').addEventListener('click', closeModal);
+}
+
+function closeModal(){
+  overlay.classList.remove('open');
+}
+
+overlay.addEventListener('click', (e)=>{
+  if(e.target === overlay) closeModal();
+});
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape') closeModal();
+});
+
+renderFilters();
+renderGrid();
+</script>
+
+</body>
+</html>
